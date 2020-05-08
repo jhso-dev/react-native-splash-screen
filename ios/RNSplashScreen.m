@@ -34,7 +34,11 @@ RCT_EXPORT_MODULE(SplashScreen)
 
 + (void)showSplash:(NSString*)splashScreen inRootView:(UIView*)rootView {
     if (!loadingView) {
-        loadingView = [[[NSBundle mainBundle] loadNibNamed:splashScreen owner:self options:nil] objectAtIndex:0];
+        // no longer allow xib for splash screen
+        UIStoryboard *launchSb = [UIStoryboard storyboardWithName:splashScreen bundle:nil];
+        UIViewController *launchSbVC = [launchSb instantiateInitialViewController];
+        loadingView = launchSbVC.view;
+
         CGRect frame = rootView.frame;
         frame.origin = CGPointMake(0, 0);
         loadingView.frame = frame;
